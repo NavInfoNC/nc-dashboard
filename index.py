@@ -21,19 +21,23 @@ def rst(filepath):
     return static_file(filepath, root=os.path.join(os.path.dirname(script_dir), 'raspberry', '_build', 'html'))
 
 @route('/js/<filepath:path>')
-def rst(filepath):
+def resource_js(filepath):
     return static_file(filepath, root=os.path.join(script_dir, 'html', 'js'))
 
 @route('/css/<filepath:path>')
-def rst(filepath):
+def resource_css(filepath):
     return static_file(filepath, root=os.path.join(script_dir, 'html', 'css'))
+
+@route('/fonts/<filepath:path>')
+def resource_fonts(filepath):
+    return static_file(filepath, root=os.path.join(script_dir, 'html', 'fonts'))
 
 @route('/')
 @route('/index.html')
 @route('/index.htm')
 @route('/index')
 def index():
-    return template(open('index.tpl').read())
+    return template(open(os.path.join(script_dir, 'html', 'index.tpl')).read())
 
 # return (failed_number, total_number)
 def get_health_report(info):

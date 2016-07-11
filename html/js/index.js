@@ -3,20 +3,19 @@ function loadAllData() {
     document.getElementById('name-1').innerHTML = "NaviCore";
     $.getJSON('/status/NaviCore',
         function (data) {
-            document.getElementById('color-box-1').style.backgroundColor = data.color;
+            $('color-box-1').className = data.color;
         }
     );
     
     document.getElementById('name-2').innerHTML = "NaviCore Test";
     $.getJSON('/status/NaviCoreAutoTest',
         function (data) {
-            document.getElementById('color-box-2').style.backgroundColor = data.color;
-            document.getElementById('desc-2').innerHTML = data.failed + " / " + data.total + " tests failed.";
+            $('color-box-2').className = data.color;
+            $('desc-2').innerHTML = data.failed + " / " + data.total + " tests failed.";
         }
     );
     $.getJSON('/errors/NaviCoreAutoTest',
         function (data) {
-        
             s = '';
             for (var i in data.suites)
                 for (var j in data.suites[i].cases)
