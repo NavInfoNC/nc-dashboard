@@ -1,11 +1,6 @@
 @font-face {
-  font-family: myFirstFont;
-  src: url(ElliotSans.ttf);
-}
-
-@font-face {
   font-family: FjallaOne;
-  src: url(FjallaOne.woff2) format('woff2');
+  src: url("../fonts/FjallaOne.woff2") format('woff2');
 }
 
 html, body, div {
