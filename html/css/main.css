@@ -95,7 +95,7 @@ html, body {
 
 .box .content .errors {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  color: #ffc9c9;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 14px;
   margin: 10px 0px;
   line-height: 150%;

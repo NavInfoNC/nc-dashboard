@@ -47,6 +47,12 @@ def get_health_report(info):
                 total = m.group(2).replace(",", "")
                 return (int(failed), int(total))
     return (0, 0)
+
+def get_status(info):
+    status = info['color']
+    if status.endswith("_anime"):
+        status = status[0:-6] + " building"
+    return status
     
 @route('/debug')
 def debugInfo():
@@ -57,13 +63,13 @@ def debugInfo():
 @route('/status/NaviCore')
 def status_NaviCore():
     info = server.get_job_info('NaviCore')
-    return '{"color": "%s"}' % info['color']
+    return '{"status": "%s"}' % get_status(info)
     
 @route('/status/NaviCoreAutoTest')
 def status_NaviCoreAutoTest():
     info = server.get_job_info('NaviCoreAutoTest')
     failed_num, total_num = get_health_report(info)
-    return '{"color": "%s", "failed": %d, "total": %d}' % (info['color'], failed_num, total_num)
+    return '{"status": "%s", "failed": %d, "total": %d}' % (get_status(info), failed_num, total_num)
     
 @route('/errors/NaviCoreAutoTest')
 def errors_NaviCoreAutoTest():
@@ -74,17 +80,17 @@ def errors_NaviCoreAutoTest():
 @route('/status/ncservers')
 def status_NaviCore():
     info = server.get_job_info('ncservers')
-    return '{"color": "%s"}' % info['color']
+    return '{"status": "%s"}' % get_status(info)
     
 @route('/status/NaviCoreGitAndroid')
 def status_NaviCore():
     info = server.get_job_info('NaviCoreGitAndroid')
-    return '{"color": "%s"}' % info['color']
+    return '{"status": "%s"}' % get_status(info)
     
 @route('/status/NaviCoreGitMac')
 def status_NaviCore():
     info = server.get_job_info('NaviCoreGitMac')
-    return '{"color": "%s"}' % info['color']
+    return '{"status": "%s"}' % get_status(info)
     
 run(host='0.0.0.0', port='8009', debug=True)
 
