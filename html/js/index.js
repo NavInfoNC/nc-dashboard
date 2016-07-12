@@ -17,10 +17,15 @@ function loadAllData() {
     $.getJSON('/errors/NaviCoreAutoTest',
         function (data) {
             s = '';
+            var cnt = 0;
             for (var i in data.suites)
                 for (var j in data.suites[i].cases)
-                    if (data.suites[i].cases[j].status == "FAILED")
+                    if (data.suites[i].cases[j].status == "FAILED" && cnt < 8) {
                         s += '<li>' + data.suites[i].cases[j].className + '.' + data.suites[i].cases[j].name + '</li>';
+                        cnt++;
+                    }
+            if (cnt >= 8)
+                s += '<li>......</li>';
             document.getElementById('errors-2').innerHTML = s;
         }
     );
