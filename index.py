@@ -12,8 +12,6 @@ import jenkins
 
 script_dir = os.path.dirname(os.path.abspath(__file__)) 
 
-colors_to_disp = {'blue': '#3fa7f2', 'yellow': '#f28a3f', 'red': '#d82027'}
-
 server = jenkins.Jenkins('http://build.navicore.mapbar.com', username='robot', password='CheeseSnack')
 
 @route('/rst/<filepath:path>')
@@ -59,42 +57,34 @@ def debugInfo():
 @route('/status/NaviCore')
 def status_NaviCore():
     info = server.get_job_info('NaviCore')
-    return '{"color": "%s"}' % (colors_to_disp[info['color']])
+    return '{"color": "%s"}' % info['color']
     
 @route('/status/NaviCoreAutoTest')
 def status_NaviCoreAutoTest():
     info = server.get_job_info('NaviCoreAutoTest')
     failed_num, total_num = get_health_report(info)
-    if info is None:
-        return '{"color": "#000000", "failed": 0, "total": 0}'
-    return '{"color": "%s", "failed": %d, "total": %d}' % (colors_to_disp[info['color']], failed_num, total_num)
+    return '{"color": "%s", "failed": %d, "total": %d}' % (info['color'], failed_num, total_num)
     
 @route('/errors/NaviCoreAutoTest')
 def errors_NaviCoreAutoTest():
     info = eval(urllib.urlopen("http://build.nc.cow/job/NaviCoreAutoTest/lastCompletedBuild/testReport/api/python?pretty=true").read())
 
     return info
-    #s = ""
-   # for suite in info['suites']:
-    #    for case in suite['cases']:
-    #        if case['status'] is 'FAILED':
-    #            s += '<li>' + case['className'] + '.' + case['name'] + '</li>'
-  #  return s
     
 @route('/status/ncservers')
 def status_NaviCore():
     info = server.get_job_info('ncservers')
-    return '{"color": "%s"}' % (colors_to_disp[info['color']])
+    return '{"color": "%s"}' % info['color']
     
 @route('/status/NaviCoreGitAndroid')
 def status_NaviCore():
     info = server.get_job_info('NaviCoreGitAndroid')
-    return '{"color": "%s"}' % (colors_to_disp[info['color']])
+    return '{"color": "%s"}' % info['color']
     
 @route('/status/NaviCoreGitMac')
 def status_NaviCore():
     info = server.get_job_info('NaviCoreGitMac')
-    return '{"color": "%s"}' % (colors_to_disp[info['color']])
+    return '{"color": "%s"}' % info['color']
     
 run(host='0.0.0.0', port='8009', debug=True)
 

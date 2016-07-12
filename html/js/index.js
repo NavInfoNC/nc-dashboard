@@ -3,14 +3,14 @@ function loadAllData() {
     document.getElementById('name-1').innerHTML = "NaviCore";
     $.getJSON('/status/NaviCore',
         function (data) {
-            $('color-box-1').className = data.color;
+            document.getElementById('box-1').className = data.color;
         }
     );
     
     document.getElementById('name-2').innerHTML = "NaviCore Test";
     $.getJSON('/status/NaviCoreAutoTest',
         function (data) {
-            $('color-box-2').className = data.color;
+            document.getElementById('box-2').className = data.color;
             $('desc-2').innerHTML = data.failed + " / " + data.total + " tests failed.";
         }
     );
@@ -28,21 +28,21 @@ function loadAllData() {
     document.getElementById('name-3').innerHTML = "Server";
     $.getJSON('/status/ncservers',
         function (data) {
-            document.getElementById('color-box-3').style.backgroundColor = data.color;
+            document.getElementById('box-3').className = data.color;
         }
     );
     
     document.getElementById('name-4').innerHTML = "Android";
     $.getJSON('/status/NaviCoreGitAndroid',
         function (data) {
-            document.getElementById('color-box-4').style.backgroundColor = data.color;
+            document.getElementById('box-4').className = data.color;
         }
     );
     
     document.getElementById('name-5').innerHTML = "iOS";
     $.getJSON('/status/NaviCoreGitMac',
         function (data) {
-            document.getElementById('color-box-5').style.backgroundColor = data.color;
+            document.getElementById('box-5').className = data.color;
         }
     );
     

@@ -47,12 +47,20 @@ html, body {
   background-color: #3fa7f2;
 }
 
-.box .red {
+.box .red{
   background-color: #d82027;
 }
 
 .box .yellow {
   background-color: #f28a3f;
+}
+
+.box .black {
+  background-color: #000000;
+}
+
+.box .disabled {
+  background-color: dimgrey;
 }
 
 .box .content {
