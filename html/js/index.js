@@ -11,7 +11,7 @@ function loadAllData() {
     $.getJSON('/status/NaviCoreAutoTest',
         function (data) {
             document.getElementById('box-2').className = data.status;
-            $('desc-2').innerHTML = data.failed + " / " + data.total + " tests failed.";
+            document.getElementById('desc-2').innerHTML = data.failed + " / " + data.total + " tests failed.";
         }
     );
     $.getJSON('/errors/NaviCoreAutoTest',
