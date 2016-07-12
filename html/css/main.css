@@ -123,6 +123,10 @@ ul li:nth-of-type(1n+10) {
   top: 35px;
 }
 
-.box .red::after, .box .yellow::after {
-  content: ":(";
+.red::after {
+  content: "(。•́︿•̀。)";
+}
+
+.yellow::after {
+  content: "=￣ω￣=";
 }
