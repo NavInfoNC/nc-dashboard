@@ -12,6 +12,10 @@ html, body {
   height: 100%;
 }
 
+body>div {
+  background-color: black;
+}
+
 .box {
   display: flex;
   flex-flow: row wrap;
@@ -107,20 +111,21 @@ ul li:nth-of-type(1n+10) {
 }
 
 .box .red::after, .box .blue::after, .box .yellow::after {
-  font-size: 96px;
   font-family: arial;
   position: absolute;
-  right: 80px;
-  top: 15px;
   text-align: right;
   margin: 10px;
   color: rgba(255, 255, 255, 0.4);
+
+  font-size: 48px;
+  right: 30px;
+  top: 50px;
 }
 
 .box .box .red::after, .box .box .blue::after, .box .box .yellow::after {
-  font-size: 48px;
-  right: 40px;
-  top: 35px;
+  font-size: 28px;
+  right: 10px;
+  top: 50px;
 }
 
 .red::after {
@@ -129,4 +134,13 @@ ul li:nth-of-type(1n+10) {
 
 .yellow::after {
   content: "=￣ω￣=";
+}
+
+.box .time {
+  font-family: FjallaOne;
+  position:absolute;
+  bottom:40px;
+  padding:0px;
+  margin:0px;
+  color: rgba(255, 255, 255, 0.8);
 }

@@ -54,6 +54,11 @@ def get_status(info):
         status = status[0:-6] + " building"
     return status
     
+# return the timestamp of the last build in milliseconds
+def get_timestamp(jobname):
+    info = eval(urllib.urlopen("http://build.nc.cow/job/" + jobname + "/lastBuild/api/python?pretty=true").read())
+    return info["timestamp"]
+
 @route('/debug')
 def debugInfo():
     jobname = 'NaviCoreAutoTest'
@@ -62,14 +67,16 @@ def debugInfo():
 
 @route('/status/NaviCore')
 def status_NaviCore():
-    info = server.get_job_info('NaviCore')
-    return '{"status": "%s"}' % get_status(info)
+    jobname = 'NaviCore'
+    info = server.get_job_info(jobname)
+    return '{"status": "%s", "timestamp": %d}' % (get_status(info), get_timestamp(jobname))
     
 @route('/status/NaviCoreAutoTest')
 def status_NaviCoreAutoTest():
-    info = server.get_job_info('NaviCoreAutoTest')
+    jobname = 'NaviCoreAutoTest'
+    info = server.get_job_info(jobname);
     failed_num, total_num = get_health_report(info)
-    return '{"status": "%s", "failed": %d, "total": %d}' % (get_status(info), failed_num, total_num)
+    return '{"status": "%s", "failed": %d, "total": %d, "timestamp": %d}' % (get_status(info), failed_num, total_num, get_timestamp(jobname))
     
 @route('/errors/NaviCoreAutoTest')
 def errors_NaviCoreAutoTest():
@@ -78,19 +85,24 @@ def errors_NaviCoreAutoTest():
     return info
     
 @route('/status/ncservers')
-def status_NaviCore():
-    info = server.get_job_info('ncservers')
-    return '{"status": "%s"}' % get_status(info)
+def status_ncservers():
+    jobname = 'ncservers'
+    info = server.get_job_info(jobname)
+    return '{"status": "%s", "timestamp": %d}' % (get_status(info), get_timestamp(jobname))
     
 @route('/status/NaviCoreGitAndroid')
-def status_NaviCore():
-    info = server.get_job_info('NaviCoreGitAndroid')
-    return '{"status": "%s"}' % get_status(info)
+def status_NaviCoreGitAndroid():
+    jobname = 'NaviCoreGitAndroid'
+    info = server.get_job_info(jobname)
+    return '{"status": "%s", "timestamp": %d}' % (get_status(info), get_timestamp(jobname))
+
     
 @route('/status/NaviCoreGitMac')
-def status_NaviCore():
-    info = server.get_job_info('NaviCoreGitMac')
-    return '{"status": "%s"}' % get_status(info)
+def status_NaviCoreGitMac():
+    jobname = 'NaviCoreGitMac'
+    info = server.get_job_info(jobname)
+    return '{"status": "%s", "timestamp": %d}' % (get_status(info), get_timestamp(jobname))
+
     
 run(host='0.0.0.0', port='8009', debug=True)
 
