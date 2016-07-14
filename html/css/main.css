@@ -111,7 +111,7 @@ ul li:nth-of-type(1n+10) {
 }
 
 .box .red::after, .box .blue::after, .box .yellow::after {
-  font-family: arial;
+  font-family: Arial;
   position: absolute;
   text-align: right;
   margin: 10px;
@@ -119,13 +119,13 @@ ul li:nth-of-type(1n+10) {
 
   font-size: 48px;
   right: 30px;
-  top: 50px;
+  top: 40px;
 }
 
 .box .box .red::after, .box .box .blue::after, .box .box .yellow::after {
   font-size: 28px;
   right: 10px;
-  top: 50px;
+  top: 45px;
 }
 
 .red::after {

@@ -5,6 +5,7 @@
 import os, re
 from bottle import run, static_file, route, template
 import urllib
+import json
 
 # Third-party module
 import jenkins
@@ -80,9 +81,13 @@ def status_NaviCoreAutoTest():
     
 @route('/errors/NaviCoreAutoTest')
 def errors_NaviCoreAutoTest():
-    info = eval(urllib.urlopen("http://build.nc.cow/job/NaviCoreAutoTest/lastCompletedBuild/testReport/api/python?pretty=true").read())
-
-    return info
+    page = urllib.urlopen("http://build.nc.cow/job/NaviCoreAutoTest/lastCompletedBuild/testReport/api/json?pretty=true").read()
+    try:
+        jsonVal = json.loads(page)
+    except:
+        return ''
+    else:
+        return jsonVal
     
 @route('/status/ncservers')
 def status_ncservers():
