@@ -81,13 +81,11 @@ def status_NaviCoreAutoTest():
     
 @route('/errors/NaviCoreAutoTest')
 def errors_NaviCoreAutoTest():
-    page = urllib.urlopen("http://build.nc.cow/job/NaviCoreAutoTest/lastCompletedBuild/testReport/api/json?pretty=true").read()
     try:
-        jsonVal = json.loads(page)
+        url = "http://build.nc.cow/job/NaviCoreAutoTest/lastCompletedBuild/testReport/api/json?pretty=true";
+        return json.loads(urllib.urlopen(url).read())
     except:
-        return ''
-    else:
-        return jsonVal
+        return '{}'
     
 @route('/status/ncservers')
 def status_ncservers():
