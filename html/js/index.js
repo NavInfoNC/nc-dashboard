@@ -1,3 +1,5 @@
+var REFRESH_CYCLE = 10000;  // ms
+
 function loadAllData() {
 
     function getTimeDescription(timestamp) {
@@ -45,6 +47,8 @@ function loadAllData() {
         desc += ' ago';
         return desc;
     }
+
+    $.ajaxSettings.async = false;
 
     document.getElementById('name-1').innerHTML = "NaviCore";
     $.getJSON('/status/NaviCore',
@@ -102,15 +106,24 @@ function loadAllData() {
         }
     );
     
+    $.ajaxSettings.async = true;
 }
 
 window.onload = function() {
     loadAllData();
 }
 
-/// Request the status per 1s
-var interval = setInterval(
+///// Request the status per 1s (async)
+//var timer = setInterval(
+//    function () {
+//        loadAllData();
+//    }, REFRESH_CYCLE
+//);
+
+/// Request the status per 1s (sync)
+var timer = setTimeout(
     function () {
         loadAllData();
-    }, 10000
+        setTimeout(arguments.callee, REFRESH_CYCLE);
+    }, REFRESH_CYCLE
 );
