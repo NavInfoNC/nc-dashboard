@@ -117,14 +117,14 @@ window.onload = function() {
     loadAllData();
 }
 
-///// Request the status per 1s (async)
+///// Request the status periodically (async)
 //var timer = setInterval(
 //    function () {
 //        loadAllData();
 //    }, REFRESH_CYCLE
 //);
 
-/// Request the status per 1s (sync)
+/// Request the status periodically (sync)
 var timer = setTimeout(
     function () {
         loadAllData();

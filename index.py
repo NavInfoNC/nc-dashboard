@@ -6,6 +6,7 @@ import os, re
 from bottle import run, static_file, route, template
 import urllib
 import json
+import socket
 
 # Third-party module
 import jenkins
@@ -14,6 +15,8 @@ import jenkins
 script_dir = os.path.dirname(os.path.abspath(__file__))
 server = jenkins.Jenkins('http://build.navicore.mapbar.com', username='robot', password='CheeseSnack')
 
+# Set timeout
+socket.setdefaulttimeout(15)
 
 @route('/rst/<filepath:path>')
 def rst(filepath):
