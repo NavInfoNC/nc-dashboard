@@ -62,8 +62,12 @@ function loadAllData() {
     $.getJSON('/status/NaviCoreAutoTest',
         function (data) {
             document.getElementById('box-2').className = data.status;
-            document.getElementById('desc-2').innerHTML = data.failed + " / " + data.total + " tests failed.";
             document.getElementById('time-2').innerHTML = getTimeDescription_interval(data.timestamp)
+        }
+    );
+    $.getJSON('/health/NaviCoreAutoTest',
+        function (data) {
+            document.getElementById('desc-2').innerHTML = data.failed + " / " + data.total + " tests failed.";
         }
     );
     $.getJSON('/errors/NaviCoreAutoTest',
