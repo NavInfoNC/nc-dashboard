@@ -25,11 +25,20 @@
           <p class="time" id="time-2"></p>
         </div>
       </div>
-      <div id="box-3">
-        <div class="content">
-          <p class="project_name" id="name-3"></p>
-          <p class="project_desc" id="desc-3"></p>
-          <p class="time" id="time-3"></p>
+      <div class="box">
+        <div id="box-3">
+          <div class="content">
+            <p class="project_name" id="name-3"></p>
+            <p class="project_desc" id="desc-3"></p>
+            <p class="time" id="time-3"></p>
+          </div>
+        </div>
+        <div id="box-6">
+          <div class="content">
+            <p class="project_name" id="name-6"></p>
+            <p class="project_desc" id="desc-6"></p>
+            <p class="time" id="time-6"></p>
+          </div>
         </div>
       </div>
       <div class="box">

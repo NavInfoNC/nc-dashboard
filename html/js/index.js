@@ -109,6 +109,14 @@ function loadAllData() {
             document.getElementById('time-5').innerHTML = getTimeDescription_interval(data.timestamp)
         }
     );
+
+    document.getElementById('name-6').innerHTML = "Linux";
+    $.getJSON('/status/NaviCoreLinux',
+        function (data) {
+            document.getElementById('box-6').className = data.status;
+            document.getElementById('time-6').innerHTML = getTimeDescription_interval(data.timestamp)
+        }
+    );
     
     $.ajaxSettings.async = true;
 }
