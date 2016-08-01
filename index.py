@@ -16,7 +16,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 server = jenkins.Jenkins('http://build.navicore.mapbar.com', username='robot', password='CheeseSnack')
 
 # Set timeout
-socket.setdefaulttimeout(15)
+socket.setdefaulttimeout(30)
 
 @route('/rst/<filepath:path>')
 def rst(filepath):
