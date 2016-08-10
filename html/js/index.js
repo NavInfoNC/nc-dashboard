@@ -67,7 +67,11 @@ function loadAllData() {
     );
     $.getJSON('/health/NaviCoreAutoTest',
         function (data) {
-            document.getElementById('desc-2').innerHTML = data.failed + " / " + data.total + " tests failed.";
+            if (data.total == 0)
+                text = "";
+            else
+                text = data.failed + " / " + data.total + " tests failed.";
+            document.getElementById('desc-2').innerHTML = text;
         }
     );
     $.getJSON('/errors/NaviCoreAutoTest',
