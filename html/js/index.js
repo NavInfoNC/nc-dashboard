@@ -61,8 +61,15 @@ function loadAllData() {
     document.getElementById('name-2').innerHTML = "NaviCore Test";
     $.getJSON('/status/NaviCoreAutoTest',
         function (data) {
+            // check auto test building status
+            var data_build;
+            $.getJSON('/status/NaviCoreTestBuild', function(data_build) {
+                if (data.status.indexOf('red') == 0 && data_build.status.indexOf('red') == 0)
+                    data.status = 'deep_red' + data.status.substring(3);
+            });
+            
             document.getElementById('box-2').className = data.status;
-            document.getElementById('time-2').innerHTML = getTimeDescription_interval(data.timestamp)
+            document.getElementById('time-2').innerHTML = getTimeDescription_interval(data.timestamp);
         }
     );
     $.getJSON('/health/NaviCoreAutoTest',

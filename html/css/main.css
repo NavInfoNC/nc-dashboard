@@ -59,19 +59,23 @@ body>div {
   height: 100%;
 }
 
-.box .blue, .box .blue_anime {
+.box .blue {
   background-color: #3fa7f2;
 }
 
-.box .red, .box .red_anime {
+.box .red {
   background-color: #d82027;
 }
 
-.box .yellow, .box .yellow_anime {
+.box .deep_red {
+  background-color: #300000;
+}
+
+.box .yellow {
   background-color: #f28a3f;
 }
 
-.box .disabled, .box .disabled_anime, .box .aborted, .box .aborted_anime {
+.box .disabled, .box .aborted {
   background-color: dimgrey;
 }
 
@@ -110,7 +114,7 @@ ul li:nth-of-type(1n+10) {
   display: none;
 }
 
-.box .red::after, .box .blue::after, .box .yellow::after {
+.box .red::after, .box .deep_red::after, .box .blue::after, .box .yellow::after {
   font-family: Arial;
   position: absolute;
   text-align: right;
@@ -122,7 +126,7 @@ ul li:nth-of-type(1n+10) {
   top: 40px;
 }
 
-.box .box .red::after, .box .box .blue::after, .box .box .yellow::after {
+.box .box .red::after, .box .box .deep_red::after, .box .box .blue::after, .box .box .yellow::after {
   font-size: 28px;
   right: 10px;
   top: 52px;
@@ -130,6 +134,10 @@ ul li:nth-of-type(1n+10) {
 
 .red::after {
   content: "(。•́︿•̀。)";
+}
+
+.deep_red::after {
+  content: "(－︿－)";
 }
 
 .yellow::after {
