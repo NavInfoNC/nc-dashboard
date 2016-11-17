@@ -55,7 +55,7 @@ body>div {
 }
 
 .box .box>div {
-  outline:3px solid white;
+  outline:5px solid white;
   height: 100%;
 }
 
