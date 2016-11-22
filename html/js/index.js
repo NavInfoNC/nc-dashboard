@@ -85,6 +85,7 @@ function loadAllData() {
         function (data) {
             s = '';
             var cnt = 0, MAX_ITEMS = 8;
+		    data.suites.sort(function (a,b) {return Math.random() - 0.5});
             for (var i in data.suites)
                 for (var j in data.suites[i].cases)
                     if (data.suites[i].cases[j].status == "FAILED" && cnt < MAX_ITEMS) {
