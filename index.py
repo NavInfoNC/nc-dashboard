@@ -8,12 +8,14 @@ import urllib
 import json
 import socket
 
-# Third-party module
-import jenkins
-
+import jenkinsapi
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-server = jenkins.Jenkins('http://build.navicore.mapbar.com', username='robot', password='CheeseSnack')
+
+jenkins_url = 'http://build.nc.cow/'
+jenkins_user = 'mapbar'
+jenkins_pw = '5?vIctOria'
+server = jenkinsapi.jenkins.Jenkins(jenkins_url, username=jenkins_user, password=jenkins_pw)
 
 # Set timeout
 socket.setdefaulttimeout(30)
@@ -45,25 +47,16 @@ def resource_fonts(filepath):
 def index():
     return template(open(os.path.join(script_dir, 'html', 'index.tpl')).read())
 
-
-@route('/debug')
-def page_debug():
-    job_name = 'NaviCoreAutoTest'
-    # return server.get_job_info(job_name)
-    return server.get_build_info(job_name, 2708)
-
-
 @route('/status/<job_name>')
 def page_status(job_name):
     try:
-        info = server.get_job_info(job_name)
-
-        status = info['color']
+        job = server.get_job(job_name)
+        status = job._data['color']
         if status.endswith("_anime"):
             status = status[0:-6] + " building"
 
-        url = "http://build.nc.cow/job/" + job_name + "/lastBuild/api/python?pretty=true"
-        timestamp = eval(urllib.urlopen(url).read())["timestamp"]
+        lastbuild = jenkinsapi.api.get_latest_build(jenkins_url, job_name, jenkins_user, jenkins_pw)
+        timestamp = lastbuild._data['timestamp']
 
         return '{"status": "%s", "timestamp": %d}' % (status, timestamp)
     except:
@@ -73,17 +66,9 @@ def page_status(job_name):
 @route('/health/<job_name>')
 def page_health(job_name):
     try:
-        info = server.get_job_info(job_name)
-
-        failed_num, total_num = 0, 0
-        for i in info["healthReport"]:
-            if i["description"].startswith("Test Result"):
-                m = re.match(".*?(\d[,\d]+).*?(\d[,\d]+)", i["description"])
-                if m:
-                    failed = m.group(1).replace(",", "")
-                    total = m.group(2).replace(",", "")
-                    failed_num, total_num = int(failed), int(total)
-                    break
+        lastbuild = jenkinsapi.api.get_latest_build(jenkins_url, job_name, jenkins_user, jenkins_pw)
+        failed_num = lastbuild._data['actions'][2]['failCount']
+        total_num = lastbuild._data['actions'][2]['totalCount']
 
         return '{"failed": %d, "total": %d}' % (failed_num, total_num)
     except:
@@ -93,8 +78,9 @@ def page_health(job_name):
 @route('/errors/<job_name>')
 def page_errors(job_name):
     try:
-        url = "http://build.nc.cow/job/" + job_name + "/lastCompletedBuild/testReport/api/json?pretty=true"
-        return json.loads(urllib.urlopen(url).read())
+        lastbuild = jenkinsapi.api.get_latest_build(jenkins_url, job_name, jenkins_user, jenkins_pw)
+        resultset = lastbuild.get_resultset()
+        return resultset._data
     except:
         return '{}'
     
