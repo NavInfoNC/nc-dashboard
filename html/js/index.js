@@ -76,6 +76,8 @@ function loadAllData() {
         function (data) {
             if (data.total == 0)
                 text = "";
+            else if (data.failed == 0)
+                text = "All " + data.total + " tests passed.";
             else
                 text = data.failed + " / " + data.total + " tests failed.";
             document.getElementById('desc-2').innerHTML = text;
