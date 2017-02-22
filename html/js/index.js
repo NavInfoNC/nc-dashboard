@@ -81,20 +81,10 @@ function loadAllData() {
             else
                 text = data.failed + " / " + data.total + " tests failed.";
             document.getElementById('desc-2').innerHTML = text;
-        }
-    );
-    $.getJSON('/errors/NaviCoreAutoTest',
-        function (data) {
-            s = '';
-            var cnt = 0, MAX_ITEMS = 8;
-		    data.suites.sort(function (a,b) {return Math.random() - 0.5});
-            for (var i in data.suites)
-                for (var j in data.suites[i].cases)
-                    if (data.suites[i].cases[j].status == "FAILED" && cnt < MAX_ITEMS) {
-                        s += '<li>' + data.suites[i].cases[j].className + '.' + data.suites[i].cases[j].name + '</li>';
-                        cnt++;
-                    }
-            if (cnt >= MAX_ITEMS)
+
+            var s = "<li>" + data.failedList.join("</li><li>") + "</li>";
+
+            if (data.failed >= 8)
                 s += '<li>......</li>';
             document.getElementById('errors-2').innerHTML = s;
         }

@@ -1,15 +1,17 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
+
 # Build-in modules
 import os, re
 from bottle import run, static_file, route, template
 import urllib
 import json
 
+MAX_COUNT = 8
 script_dir = os.path.dirname(os.path.abspath(__file__))
+base_url = 'http://mapbar:f86f51987e9f910a84f77d5610d6f8e3@build.nc.cow/job/'
 
-base_url = 'http://mapbar:f86f51987e9f910a84f77d5610d6f8e3@build.nc.cow'
 
 @route('/rst/<filepath:path>')
 def rst(filepath):
@@ -42,47 +44,47 @@ def index():
 @route('/status/<job_name>')
 def page_status(job_name):
     try:
-        url = base_url + "/view/Manual/job/" + job_name + "/api/json?tree=color"
-        status = json.loads(urllib.urlopen(url).read())['color']
+        url = base_url + job_name + "/api/json?tree=color,lastBuild[timestamp]"
+        info = json.loads(urllib.urlopen(url).read())
+
+        status = info['color']
         if status.endswith("_anime"):
             status = status[0:-6] + " building"
 
-        url = base_url + "/job/" + job_name + "/lastBuild/api/json?tree=timestamp"
-        timestamp = json.loads(urllib.urlopen(url).read())["timestamp"]
-
-        return '{"status": "%s", "timestamp": %d}' % (status, timestamp)
+        return '{"status": "%s", "timestamp": %d}' % (status, info['lastBuild']["timestamp"])
     except:
         return None
 
 
 @route('/health/<job_name>')
 def page_health(job_name):
+    result = dict()
     try:
-        url = base_url + "/view/Manual/job/" + job_name + "/api/json?tree=healthReport[description]"
-
+        url = base_url + job_name + "/lastCompletedBuild/testReport/api/json?depth=1&tree=failCount,passCount,skipCount"
         info = json.loads(urllib.urlopen(url).read())
+        total = info['failCount'] + info['passCount'] + info['skipCount']
 
-        failed_num, total_num = 0, 0
-        for i in info["healthReport"]:
-            if i["description"].startswith("Test Result"):
-                m = re.match(".*?(\d[,\d]*).*?(\d[,\d]*)", i["description"])
-                if m:
-                    failed = m.group(1).replace(",", "")
-                    total = m.group(2).replace(",", "")
-                    failed_num, total_num = int(failed), int(total)
-                    break
+        result['failed'] = info['failCount']
+        result['total'] = total
 
-        return '{"failed": %d, "total": %d}' % (failed_num, total_num)
+        if info['failCount'] > 0:
+            result_list = list()
+
+            url = base_url + job_name + "/lastCompletedBuild/testReport/api/json?depth=1&tree=suites[cases[className,name,status]]"
+            info = json.loads(urllib.urlopen(url).read())
+
+            cnt = 0
+            for cases in info['suites']:
+                for case in cases['cases']:
+                    if case['status'] != 'PASSED' and cnt < MAX_COUNT:
+                        result_list.append('.'.join([case['className'], case['name']]))
+                        cnt += 1
+            result['failedList'] = result_list
     except:
-        return None
+        pass
 
-@route('/errors/<job_name>')
-def page_errors(job_name):
-    try:
-        url = base_url + "/job/" + job_name + "/lastCompletedBuild/testReport/api/json?depth=1&tree=suites[cases[className,name,status]]"
-        return json.loads(urllib.urlopen(url).read())
-    except:
-        return '{}'
-    
-run(host='0.0.0.0', port='8009', debug=True)
+    return result
+
+if __name__ == '__main__':
+    run(host='0.0.0.0', port='8009', debug=True)
 
