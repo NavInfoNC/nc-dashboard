@@ -6,17 +6,10 @@ import os, re
 from bottle import run, static_file, route, template
 import urllib
 import json
-import socket
-
-# Third-party module
-import jenkins
-
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-server = jenkins.Jenkins('http://build.navicore.mapbar.com', username='robot', password='CheeseSnack')
 
-# Set timeout
-socket.setdefaulttimeout(30)
+base_url = 'http://mapbar:f86f51987e9f910a84f77d5610d6f8e3@build.nc.cow'
 
 @route('/rst/<filepath:path>')
 def rst(filepath):
@@ -46,24 +39,16 @@ def index():
     return template(open(os.path.join(script_dir, 'html', 'index.tpl')).read())
 
 
-@route('/debug')
-def page_debug():
-    job_name = 'NaviCoreAutoTest'
-    # return server.get_job_info(job_name)
-    return server.get_build_info(job_name, 2708)
-
-
 @route('/status/<job_name>')
 def page_status(job_name):
     try:
-        info = server.get_job_info(job_name)
-
-        status = info['color']
+        url = base_url + "/view/Manual/job/" + job_name + "/api/json?tree=color"
+        status = json.loads(urllib.urlopen(url).read())['color']
         if status.endswith("_anime"):
             status = status[0:-6] + " building"
 
-        url = "http://build.nc.cow/job/" + job_name + "/lastBuild/api/python?pretty=true"
-        timestamp = eval(urllib.urlopen(url).read())["timestamp"]
+        url = base_url + "/job/" + job_name + "/lastBuild/api/json?tree=timestamp"
+        timestamp = json.loads(urllib.urlopen(url).read())["timestamp"]
 
         return '{"status": "%s", "timestamp": %d}' % (status, timestamp)
     except:
@@ -73,12 +58,14 @@ def page_status(job_name):
 @route('/health/<job_name>')
 def page_health(job_name):
     try:
-        info = server.get_job_info(job_name)
+        url = base_url + "/view/Manual/job/" + job_name + "/api/json?tree=healthReport[description]"
+
+        info = json.loads(urllib.urlopen(url).read())
 
         failed_num, total_num = 0, 0
         for i in info["healthReport"]:
             if i["description"].startswith("Test Result"):
-                m = re.match(".*?(\d[,\d]+).*?(\d[,\d]+)", i["description"])
+                m = re.match(".*?(\d[,\d]*).*?(\d[,\d]*)", i["description"])
                 if m:
                     failed = m.group(1).replace(",", "")
                     total = m.group(2).replace(",", "")
@@ -89,11 +76,10 @@ def page_health(job_name):
     except:
         return None
 
-
 @route('/errors/<job_name>')
 def page_errors(job_name):
     try:
-        url = "http://build.nc.cow/job/" + job_name + "/lastCompletedBuild/testReport/api/json?pretty=true"
+        url = base_url + "/job/" + job_name + "/lastCompletedBuild/testReport/api/json?depth=1&tree=suites[cases[className,name,status]]"
         return json.loads(urllib.urlopen(url).read())
     except:
         return '{}'
