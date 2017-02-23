@@ -2,33 +2,6 @@ var REFRESH_CYCLE = 10000;  // ms
 
 function loadAllData() {
 
-    function getTimeDescription(timestamp) {
-        var date = new Date();
-        date.setTime(timestamp);
-
-        var now = new Date();
-        var yesterday = new Date();
-        yesterday.setTime(now.getTime()-1000*60*60*24);
-        
-        var dayStr;
-        if (date.getFullYear() == now.getFullYear() && 
-            date.getMonth() == now.getMonth() &&
-            date.getDate() == now.getDate())
-            dayStr = "Today";
-        else if (date.getFullYear() == yesterday.getFullYear() && 
-            date.getMonth() == yesterday.getMonth() &&
-            date.getDate() == yesterday.getDate())
-            dayStr = "Yesterday"
-        else
-            dayStr = date.getFullYear() + '/' + (date.getMonth()+1) + "/" + date.getDate();
-
-        var minutes = date.getMinutes();
-        if (minutes < 10)
-            minutes = '0' + minutes;
-
-        return date.getHours() + ":" + minutes + ", " + dayStr;
-    }
-
     function getTimeDescription_interval(timestamp) {
         date = new Date();
         date.setTime(timestamp);
