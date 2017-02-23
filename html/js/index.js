@@ -77,9 +77,10 @@ function loadAllData() {
             if (data.total == 0)
                 text = "";
             else if (data.failed == 0)
-                text = "All " + data.total + " tests passed.";
+                text = "All " + data.total + " tests passed";
             else
-                text = data.failed + " / " + data.total + " tests failed.";
+                text = data.failed + " / " + data.total + " tests failed";
+            text += " (" + data.skipped + " skipped)"
             document.getElementById('desc-2').innerHTML = text;
 
             var s = "<li>" + data.failedList.join("</li><li>") + "</li>";

@@ -8,7 +8,6 @@ from bottle import run, static_file, route, template
 import urllib
 import json
 
-MAX_COUNT = 8
 script_dir = os.path.dirname(os.path.abspath(__file__))
 base_url = 'http://mapbar:f86f51987e9f910a84f77d5610d6f8e3@build.nc.cow/job/'
 
@@ -62,10 +61,10 @@ def page_health(job_name):
     try:
         url = base_url + job_name + "/lastCompletedBuild/testReport/api/json?depth=1&tree=failCount,passCount,skipCount"
         info = json.loads(urllib.urlopen(url).read())
-        total = info['failCount'] + info['passCount'] + info['skipCount']
 
         result['failed'] = info['failCount']
-        result['total'] = total
+        result['skipped'] = info['skipCount']
+        result['total'] = info['failCount'] + info['passCount'] + info['skipCount']
 
         if info['failCount'] > 0:
             result_list = list()
@@ -73,12 +72,10 @@ def page_health(job_name):
             url = base_url + job_name + "/lastCompletedBuild/testReport/api/json?depth=1&tree=suites[cases[className,name,status]]"
             info = json.loads(urllib.urlopen(url).read())
 
-            cnt = 0
             for cases in info['suites']:
                 for case in cases['cases']:
-                    if case['status'] != 'PASSED' and cnt < MAX_COUNT:
+                    if case['status'] != 'PASSED' and case['status'] != 'SKIPPED':
                         result_list.append('.'.join([case['className'], case['name']]))
-                        cnt += 1
             result['failedList'] = result_list
     except:
         pass
