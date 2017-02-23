@@ -83,7 +83,7 @@ function loadAllData() {
             text += " (" + data.skipped + " skipped)"
             document.getElementById('desc-2').innerHTML = text;
 
-            var s = "<li>" + data.failedList.join("</li><li>") + "</li>";
+            var s = "<li>" + data.failedList.sort(function (a,b) {return Math.random() - 0.5}).slice(0,8).join("</li><li>") + "</li>";
 
             if (data.failed >= 8)
                 s += '<li>......</li>';
