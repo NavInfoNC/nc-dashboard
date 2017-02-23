@@ -74,19 +74,23 @@ function loadAllData() {
     );
     $.getJSON('/health/NaviCoreAutoTest',
         function (data) {
-            if (data.total == 0)
-                text = "";
+            document.getElementById('desc-2').innerHTML = "";
+            document.getElementById('errors-2').innerHTML = "";
+
+            if (data.failed > 0 && data.total > 0)
+                text = data.failed + " failed / " + data.skipped + " skipped / " + data.total + " total";
             else if (data.failed == 0)
-                text = "All " + data.total + " tests passed";
+                text = "All tests passed (" + data.skipped + " / " + data.total + " skipped)";
             else
-                text = data.failed + " / " + data.total + " tests failed";
-            text += " (" + data.skipped + " skipped)"
+                text = "";
             document.getElementById('desc-2').innerHTML = text;
 
-            var s = "<li>" + data.failedList.sort(function (a,b) {return Math.random() - 0.5}).slice(0,8).join("</li><li>") + "</li>";
-
-            if (data.failed > 8)
-                s += '<li>......</li>';
+            var s = "";
+            if (data.failedList.length > 0) {
+                s = "<li>" + data.failedList.sort(function (a,b) {return Math.random() - 0.5}).slice(0,8).join("</li><li>") + "</li>";
+                if (data.failed > 8)
+                    s += '<li>......</li>';
+            }
             document.getElementById('errors-2').innerHTML = s;
         }
     );

@@ -66,9 +66,8 @@ def page_health(job_name):
         result['skipped'] = info['skipCount']
         result['total'] = info['failCount'] + info['passCount'] + info['skipCount']
 
+        result_list = list()
         if info['failCount'] > 0:
-            result_list = list()
-
             url = base_url + job_name + "/lastCompletedBuild/testReport/api/json?depth=1&tree=suites[cases[className,name,status]]"
             info = json.loads(urllib.urlopen(url).read())
 
@@ -76,7 +75,7 @@ def page_health(job_name):
                 for case in cases['cases']:
                     if case['status'] != 'PASSED' and case['status'] != 'SKIPPED':
                         result_list.append('.'.join([case['className'], case['name']]))
-            result['failedList'] = result_list
+        result['failedList'] = result_list
     except:
         pass
 
