@@ -85,7 +85,7 @@ function loadAllData() {
 
             var s = "<li>" + data.failedList.sort(function (a,b) {return Math.random() - 0.5}).slice(0,8).join("</li><li>") + "</li>";
 
-            if (data.failed >= 8)
+            if (data.failed > 8)
                 s += '<li>......</li>';
             document.getElementById('errors-2').innerHTML = s;
         }
