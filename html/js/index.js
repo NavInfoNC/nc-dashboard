@@ -29,7 +29,7 @@ function loadAllData() {
             return desc;
         }
 
-        return getTimeDescription_interval(timestamp) + ' (' + getTimeDescription_exact(timestamp) + ')';
+        return getTimeDescription_exact(timestamp) + ' (' + getTimeDescription_interval(timestamp) + ')';
     }
 
     $.ajaxSettings.async = false;
@@ -64,7 +64,7 @@ function loadAllData() {
             if (data.failed > 0 && data.total > 0)
                 text = data.failed + " failed / " + data.skipped + " skipped / " + data.total + " total";
             else if (data.failed == 0)
-                text = "All tests passed (" + data.skipped + " / " + data.total + " skipped)";
+                text = "No failures (" + data.skipped + " / " + data.total + " skipped)";
             else
                 text = "";
             document.getElementById('desc-2').innerHTML = text;
