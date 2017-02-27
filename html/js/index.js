@@ -2,23 +2,34 @@ var REFRESH_CYCLE = 10000;  // ms
 
 function loadAllData() {
 
-    function getTimeDescription_interval(timestamp) {
-        date = new Date();
-        date.setTime(timestamp);
-        now = new Date();
-        
-        interval_ms = now.getTime() - timestamp;
-        if (interval_ms <= 1000*60)                           // within a minute
-            desc = Math.floor(interval_ms/1000) + " sec";
-        else if (interval_ms <= 1000*60*60)                   // within an hour
-            desc = Math.floor(interval_ms/1000/60) + " min";
-        else if (interval_ms <= 1000*60*60*24)                // within a day
-            desc = Math.floor(interval_ms/1000/60/60) + " hr";
-        else
-            desc = Math.floor(interval_ms/1000/60/60/24) + " day(s)";
+    function getTimeDescription(timestamp) {
 
-        desc += ' ago';
-        return desc;
+        function getTimeDescription_exact(timestamp) {
+            date = new Date();
+            date.setTime(timestamp);
+            return date.getMonth() + '/' + date.getDate() + ' ' + date.getHours() + ':' +  (Array(2).join(0) + date.getMinutes()).slice(-2);
+        }
+
+        function getTimeDescription_interval(timestamp) {
+            date = new Date();
+            date.setTime(timestamp);
+            now = new Date();
+            
+            interval_ms = now.getTime() - timestamp;
+            if (interval_ms <= 1000*60)                           // within a minute
+                desc = Math.floor(interval_ms/1000) + " sec";
+            else if (interval_ms <= 1000*60*60)                   // within an hour
+                desc = Math.floor(interval_ms/1000/60) + " min";
+            else if (interval_ms <= 1000*60*60*24)                // within a day
+                desc = Math.floor(interval_ms/1000/60/60) + " hr";
+            else
+                desc = Math.floor(interval_ms/1000/60/60/24) + " day(s)";
+
+            desc += ' ago';
+            return desc;
+        }
+
+        return getTimeDescription_interval(timestamp) + ' (' + getTimeDescription_exact(timestamp) + ')';
     }
 
     $.ajaxSettings.async = false;
@@ -27,7 +38,7 @@ function loadAllData() {
     $.getJSON('/status/NaviCore',
         function (data) {
             document.getElementById('box-1').className = data.status;
-            document.getElementById('time-1').innerHTML = getTimeDescription_interval(data.timestamp)
+            document.getElementById('time-1').innerHTML = getTimeDescription(data.timestamp);
         }
     );
     
@@ -42,7 +53,7 @@ function loadAllData() {
             });
             
             document.getElementById('box-2').className = data.status;
-            document.getElementById('time-2').innerHTML = getTimeDescription_interval(data.timestamp);
+            document.getElementById('time-2').innerHTML = getTimeDescription(data.timestamp);
         }
     );
     $.getJSON('/health/NaviCoreAutoTest',
@@ -72,7 +83,7 @@ function loadAllData() {
     $.getJSON('/status/ncservers',
         function (data) {
             document.getElementById('box-3').className = data.status;
-            document.getElementById('time-3').innerHTML = getTimeDescription_interval(data.timestamp)
+            document.getElementById('time-3').innerHTML = getTimeDescription(data.timestamp);
         }
     );
     
@@ -80,7 +91,7 @@ function loadAllData() {
     $.getJSON('/status/NaviCoreGitAndroid',
         function (data) {
             document.getElementById('box-4').className = data.status;
-            document.getElementById('time-4').innerHTML = getTimeDescription_interval(data.timestamp)
+            document.getElementById('time-4').innerHTML = getTimeDescription(data.timestamp);
         }
     );
     
@@ -88,7 +99,7 @@ function loadAllData() {
     $.getJSON('/status/NaviCoreGitMac',
         function (data) {
             document.getElementById('box-5').className = data.status;
-            document.getElementById('time-5').innerHTML = getTimeDescription_interval(data.timestamp)
+            document.getElementById('time-5').innerHTML = getTimeDescription(data.timestamp);
         }
     );
 
@@ -96,7 +107,7 @@ function loadAllData() {
     $.getJSON('/status/NaviCoreLinux',
         function (data) {
             document.getElementById('box-6').className = data.status;
-            document.getElementById('time-6').innerHTML = getTimeDescription_interval(data.timestamp)
+            document.getElementById('time-6').innerHTML = getTimeDescription(data.timestamp);
         }
     );
     
