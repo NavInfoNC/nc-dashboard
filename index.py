@@ -13,7 +13,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 base_url = 'http://mapbar:f86f51987e9f910a84f77d5610d6f8e3@build.nc.cow/job/'
 
 # Set timeout
-socket.setdefaulttimeout(15)
+socket.setdefaulttimeout(1)
 
 @route('/rst/<filepath:path>')
 def rst(filepath):
@@ -55,7 +55,7 @@ def page_status(job_name):
 
         return '{"status": "%s", "timestamp": %d}' % (status, info['lastBuild']["timestamp"])
     except:
-        return None
+        return '{"status": "timeout", "timestamp": 0}'
 
 
 @route('/health/<job_name>')
