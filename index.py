@@ -76,7 +76,7 @@ def page_health(job_name):
 
             for cases in info['suites']:
                 for case in cases['cases']:
-                    if case['status'] != 'PASSED' and case['status'] != 'SKIPPED':
+                    if case['status'] == 'FAILED' or case['status'] == 'REGRESSION':
                         result_list.append('.'.join([case['className'], case['name']]))
         result['failedList'] = result_list
     except:
