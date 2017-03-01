@@ -13,7 +13,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 base_url = 'http://mapbar:f86f51987e9f910a84f77d5610d6f8e3@build.nc.cow/job/'
 
 # Set timeout
-socket.setdefaulttimeout(1)
+socket.setdefaulttimeout(15)
 
 @route('/rst/<filepath:path>')
 def rst(filepath):
