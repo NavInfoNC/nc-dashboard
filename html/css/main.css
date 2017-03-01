@@ -75,8 +75,12 @@ body>div {
   background-color: #f28a3f;
 }
 
-.box .disabled, .box .aborted, .box .timeout {
+.box .disabled, .box .aborted {
   background-color: dimgrey;
+}
+
+.box .timeout {
+  background-color: #000000;
 }
 
 .box .content {
