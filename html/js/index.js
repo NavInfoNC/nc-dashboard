@@ -7,7 +7,7 @@ function loadAllData() {
         function getTimeDescription_exact(timestamp) {
             date = new Date();
             date.setTime(timestamp);
-            return date.getMonth()+1 + '/' + date.getDate() + ' ' + date.getHours() + ':' +  (Array(2).join(0) + date.getMinutes()).slice(-2);
+            return date.getFullYear() + '/' + date.getMonth()+1 + '/' + date.getDate() + ' ' + date.getHours() + ':' +  (Array(2).join(0) + date.getMinutes()).slice(-2);
         }
 
         function getTimeDescription_interval(timestamp) {
