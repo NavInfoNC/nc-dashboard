@@ -29,7 +29,10 @@ function loadAllData() {
             return desc;
         }
 
-        return getTimeDescription_exact(timestamp) + ' (' + getTimeDescription_interval(timestamp) + ')';
+        if (timestamp != 0)
+            return getTimeDescription_exact(timestamp) + ' (' + getTimeDescription_interval(timestamp) + ')';
+        else
+            return 'NETWORK ERROR';
     }
 
     $.ajaxSettings.async = false;
