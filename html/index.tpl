@@ -33,7 +33,7 @@
             <p class="time" id="time-3"></p>
           </div>
         </div>
-        <div id="box-6">
+        <div id="box-4">
           <div class="content">
             <p class="project_name" id="name-6"></p>
             <p class="project_desc" id="desc-6"></p>
@@ -42,14 +42,14 @@
         </div>
       </div>
       <div class="box">
-        <div id="box-4">
+        <div id="box-5">
           <div class="content">
             <p class="project_name" id="name-4"></p>
             <p class="project_desc" id="desc-4"></p>
             <p class="time" id="time-4"></p>
           </div>
         </div>
-        <div id="box-5">
+        <div id="box-6">
           <div class="content">
             <p class="project_name" id="name-5"></p>
             <p class="project_desc" id="desc-5"></p>

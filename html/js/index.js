@@ -90,24 +90,24 @@ function loadAllData() {
         }
     );
     
-    document.getElementById('name-4').innerHTML = "Android";
-    $.getJSON('/status/NaviCoreGitAndroid',
+    document.getElementById('name-4').innerHTML = "Linux";
+    $.getJSON('/status/NaviCoreLinux',
         function (data) {
             document.getElementById('box-4').className = data.status;
             document.getElementById('time-4').innerHTML = getTimeDescription(data.timestamp);
         }
     );
-    
-    document.getElementById('name-5').innerHTML = "iOS";
-    $.getJSON('/status/NaviCoreGitMac',
+
+    document.getElementById('name-5').innerHTML = "Android";
+    $.getJSON('/status/NaviCoreGitAndroid',
         function (data) {
             document.getElementById('box-5').className = data.status;
             document.getElementById('time-5').innerHTML = getTimeDescription(data.timestamp);
         }
     );
-
-    document.getElementById('name-6').innerHTML = "Linux";
-    $.getJSON('/status/NaviCoreLinux',
+    
+    document.getElementById('name-6').innerHTML = "iOS";
+    $.getJSON('/status/NaviCoreGitMac',
         function (data) {
             document.getElementById('box-6').className = data.status;
             document.getElementById('time-6').innerHTML = getTimeDescription(data.timestamp);
