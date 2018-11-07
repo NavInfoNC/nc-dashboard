@@ -90,6 +90,14 @@ function loadAllData() {
         }
     );
     
+    document.getElementById('name-7').innerHTML = "NcBeta Server";
+    $.getJSON('/status/ncbeta.mapbar.com',
+        function (data) {
+            document.getElementById('box-7').className = data.status;
+            document.getElementById('time-7').innerHTML = getTimeDescription(data.timestamp);
+        }
+    );
+
     document.getElementById('name-4').innerHTML = "Linux";
     $.getJSON('/status/NaviCoreLinux',
         function (data) {
