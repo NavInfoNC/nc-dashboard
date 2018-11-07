@@ -40,7 +40,7 @@ function loadAllData() {
     document.getElementById('name-1').innerHTML = "NaviCore";
     $.getJSON('/status/NaviCore',
         function (data) {
-            document.getElementById('box-1').className = data.status;
+            document.getElementById('tile-1').className = data.status;
             document.getElementById('time-1').innerHTML = getTimeDescription(data.timestamp);
         }
     );
@@ -55,7 +55,7 @@ function loadAllData() {
                     data.status = 'deep_red' + data.status.substring(3);
             });
             
-            document.getElementById('box-2').className = data.status;
+            document.getElementById('tile-2').className = data.status;
             document.getElementById('time-2').innerHTML = getTimeDescription(data.timestamp);
         }
     );
@@ -85,32 +85,40 @@ function loadAllData() {
     document.getElementById('name-3').innerHTML = "Server";
     $.getJSON('/status/ncservers',
         function (data) {
-            document.getElementById('box-3').className = data.status;
+            document.getElementById('tile-3').className = data.status;
             document.getElementById('time-3').innerHTML = getTimeDescription(data.timestamp);
         }
     );
     
-    document.getElementById('name-4').innerHTML = "Android";
-    $.getJSON('/status/NaviCoreGitAndroid',
+    document.getElementById('name-4').innerHTML = "NcBeta Server";
+    $.getJSON('/status/ncbeta.mapbar.com',
         function (data) {
-            document.getElementById('box-4').className = data.status;
+            document.getElementById('tile-4').className = data.status;
             document.getElementById('time-4').innerHTML = getTimeDescription(data.timestamp);
         }
     );
-    
-    document.getElementById('name-5').innerHTML = "iOS";
-    $.getJSON('/status/NaviCoreGitMac',
+
+    document.getElementById('name-5').innerHTML = "Linux";
+    $.getJSON('/status/NaviCoreLinux',
         function (data) {
-            document.getElementById('box-5').className = data.status;
+            document.getElementById('tile-5').className = data.status;
             document.getElementById('time-5').innerHTML = getTimeDescription(data.timestamp);
         }
     );
 
-    document.getElementById('name-6').innerHTML = "Linux";
-    $.getJSON('/status/NaviCoreLinux',
+    document.getElementById('name-6').innerHTML = "Android";
+    $.getJSON('/status/NaviCoreGitAndroid',
         function (data) {
-            document.getElementById('box-6').className = data.status;
+            document.getElementById('tile-6').className = data.status;
             document.getElementById('time-6').innerHTML = getTimeDescription(data.timestamp);
+        }
+    );
+    
+    document.getElementById('name-7').innerHTML = "iOS";
+    $.getJSON('/status/NaviCoreGitMac',
+        function (data) {
+            document.getElementById('tile-7').className = data.status;
+            document.getElementById('time-7').innerHTML = getTimeDescription(data.timestamp);
         }
     );
     
