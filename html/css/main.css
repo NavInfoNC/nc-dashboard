@@ -142,7 +142,7 @@ ul li:nth-of-type(1n+10) {
   top: 40px;
 }
 
-#box-1.blue::after {
+#tile-1.blue::after {
 	content: ":)"
 }
 
@@ -150,7 +150,7 @@ ul li:nth-of-type(1n+10) {
   content: ":(";
 }
 
-#box-2.red::after {
+#tile-2.red::after {
 	content: "";
 }
 
