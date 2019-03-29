@@ -1,0 +1,19 @@
+{
+    "common":
+    {
+        "url":"127.0.0.1"
+    },
+    "projects":
+    [
+        {
+            "id":0,
+            "name":"linux",
+            "importance":1
+        },
+        {
+            "id":1,
+            "name":"Mac",
+            "importance":1
+        }
+    ]
+}

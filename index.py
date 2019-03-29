@@ -9,11 +9,21 @@ import urllib
 import json
 import socket
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-base_url = 'http://mapbar:f86f51987e9f910a84f77d5610d6f8e3@build.navicore.cn/job/'
+# 配置文件，读取文件 config.json
+Config = ""
+script_dir = ""
+base_url = ""
 
-# Set timeout
-socket.setdefaulttimeout(15)
+def init():
+    # Set timeout
+    global Config
+    global script_dir
+    global base_url
+    socket.setdefaulttimeout(15)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    base_url = 'http://mapbar:f86f51987e9f910a84f77d5610d6f8e3@build.navicore.cn/job/'
+    with open("./config.json","r") as configStream:
+        Config = json.loads(configStream.read())
 
 @route('/rst/<filepath:path>')
 def rst(filepath):
@@ -40,11 +50,13 @@ def resource_fonts(filepath):
 @route('/index.htm')
 @route('/index')
 def index():
-    return template(open(os.path.join(script_dir, 'html', 'index.tpl')).read())
+    print(Config['projects'])
+    return template(open(os.path.join(script_dir, 'html', 'index.tpl')).read(), projects=Config['projects'])
 
 
 @route('/status/<job_name>')
 def page_status(job_name):
+    print(job_name)
     try:
         url = base_url + job_name + "/api/json?tree=color,lastBuild[timestamp]"
         info = json.loads(urllib.urlopen(url).read())
@@ -85,5 +97,6 @@ def page_health(job_name):
     return result
 
 if __name__ == '__main__':
+    init()
     run(host='0.0.0.0', port='8009', debug=True)
 

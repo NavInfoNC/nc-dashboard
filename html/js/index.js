@@ -2,39 +2,7 @@ var REFRESH_CYCLE = 10000;  // ms
 
 function loadAllData() {
 
-    function getTimeDescription(timestamp) {
-
-        function getTimeDescription_exact(timestamp) {
-            date = new Date();
-            date.setTime(timestamp);
-            return date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' +  (Array(2).join(0) + date.getMinutes()).slice(-2);
-        }
-
-        function getTimeDescription_interval(timestamp) {
-            date = new Date();
-            date.setTime(timestamp);
-            now = new Date();
-            
-            interval_ms = now.getTime() - timestamp;
-            if (interval_ms <= 1000*60)                           // within a minute
-                desc = Math.floor(interval_ms/1000) + " sec";
-            else if (interval_ms <= 1000*60*60)                   // within an hour
-                desc = Math.floor(interval_ms/1000/60) + " min";
-            else if (interval_ms <= 1000*60*60*24)                // within a day
-                desc = Math.floor(interval_ms/1000/60/60) + " hr";
-            else
-                desc = Math.floor(interval_ms/1000/60/60/24) + " day(s)";
-
-            desc += ' ago';
-            return desc;
-        }
-
-        if (timestamp != 0)
-            return getTimeDescription_exact(timestamp) + ' (' + getTimeDescription_interval(timestamp) + ')';
-        else
-            return 'NETWORK ERROR';
-    }
-
+    
     $.ajaxSettings.async = false;
 
     document.getElementById('name-1').innerHTML = "NaviCore";
@@ -125,16 +93,58 @@ function loadAllData() {
     $.ajaxSettings.async = true;
 }
 
+function loadData(name,id)
+{
+    // 时间戳转文本
+    function getTimeDescription(timestamp) 
+    {
+        function getTimeDescription_exact(timestamp) 
+        {
+            date = new Date();
+            date.setTime(timestamp);
+            return date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' +  (Array(2).join(0) + date.getMinutes()).slice(-2);
+        }
+
+        function getTimeDescription_interval(timestamp) 
+        {
+            date = new Date();
+            date.setTime(timestamp);
+            now = new Date();
+            
+            interval_ms = now.getTime() - timestamp;
+            if (interval_ms <= 1000*60)                           // within a minute
+                desc = Math.floor(interval_ms/1000) + " sec";
+            else if (interval_ms <= 1000*60*60)                   // within an hour
+                desc = Math.floor(interval_ms/1000/60) + " min";
+            else if (interval_ms <= 1000*60*60*24)                // within a day
+                desc = Math.floor(interval_ms/1000/60/60) + " hr";
+            else
+                desc = Math.floor(interval_ms/1000/60/60/24) + " day(s)";
+
+            desc += ' ago';
+            return desc;
+        }
+
+        if (timestamp != 0)
+            return getTimeDescription_exact(timestamp) + ' (' + getTimeDescription_interval(timestamp) + ')';
+        else
+            return 'NETWORK ERROR';
+    }
+
+    document.getElementById('name-'+id).innerHTML = name;
+    $.getJSON('/status/'+name,
+        function (data) {
+            document.getElementById('tile-'+id).className = data.status;
+            document.getElementById('time-'+id).innerHTML = getTimeDescription(data.timestamp);
+        }
+    );
+    
+
+}
+
 window.onload = function() {
     loadAllData();
 }
-
-///// Request the status periodically (async)
-//var timer = setInterval(
-//    function () {
-//        loadAllData();
-//    }, REFRESH_CYCLE
-//);
 
 /// Request the status periodically (sync)
 var timer = setTimeout(
