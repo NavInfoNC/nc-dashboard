@@ -3,6 +3,7 @@ Navicore Dashboard
 
 A dashboard for auto-building cluster of Navicore.
 
-.. image:: docs/images/dashboard.png
+This is old dashboar
+![](docs/images/dashboard.png)
 
 

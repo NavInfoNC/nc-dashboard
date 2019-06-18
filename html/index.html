@@ -1,62 +1,29 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>NaviCore Build Dashboard</title>
-    <link rel="stylesheet" href="css/main.css"></link>
-  </head>
-  <body>
-    <div class="box">
-      <div class="blue">
-        <div class="content">
-        <p class="project_name building">NaviCore</p>
-      </div>
-      </div>
-      <div class="red">
-        <div class="content">
-        <p class="project_name">NaviCore Test</p>
-        <p class="project_desc">18 / 1224 tests failed.</p>
-        <ul class="errors">
-          <li>location.LocationTest.sideRoadSwitch1</li>
-          <li>poi-nc.PinyinIme.getPinyinCandidates</li>
-          <li>poi-nc.PinyinIme.getPinyinSuggestionCandidates</li>
-          <li>location.LocationTest.rightTurnReroute</li>
-          <li>location.LocationTest.slopeIdentify2</li>
-          <li>location.LocationTest.junctionLinkWithoutRoute</li>
-          <li>location.LocationTest.junctionLinkWithRoute</li>
-          <li>location.LocationTest.sideRoadSwitch1</li>
-          <li>poi-nc.PinyinIme.getPinyinCandidates</li>
-          <li>poi-nc.PinyinIme.getPinyinSuggestionCandidates</li>
-          <li>location.LocationTest.rightTurnReroute</li>
-          <li>location.LocationTest.slopeIdentify2</li>
-          <li>location.LocationTest.junctionLinkWithoutRoute</li>
-          <li>location.LocationTest.junctionLinkWithRoute</li>
-        </ul>
-      </div>
-      </div>
-      <div class="red">
-        <div class="content">
-        <p class="project_name">Servers</p>
-        <p class="project_desc">1 / 16 tests failed</p>
-        <ul class="errors">
-          <li>routing.ti</li>
-        </ul>
-      </div>
-      </div>
-      <div class="blue">
-          <div class="box">
-            <div class="blue">
-                <div class="content">
-              <p class="project_name building">Android</p>
-            </div>
-            </div>
-            <div class="yellow">
-              <div class="content">
-              <p class="project_name">iOS</p>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </body>
+<!doctype html>
+<html lang="us">
+
+<head>
+	<meta charset="utf-8">
+	<title>Dashboard</title>
+	<link href="css/jquery-ui.css" rel="stylesheet">
+	<link href="css/type.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="box-0" style="color: blue;">
+		<P>sadasdasdasdd</P>
+	</div>
+	<button onclick="f()">点我</button>
+
+	<!---->
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script>
+	function f(){
+		var str="\"color\":\"black\"";
+		console.log(str);
+		$("#box-0").css({"color":"black"});
+	}
+	</script>
+</body>
+
 </html>

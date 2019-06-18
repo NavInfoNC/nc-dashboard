@@ -1,0 +1,30 @@
+.blue{
+    word-wrap:break-word;
+    color: #ffffff;
+    background-color: #3fa7f2;
+}
+
+.yellow{
+    word-wrap:break-word;
+    color: #ffffff;
+    background-color: #f28a3f; 
+}
+
+.red{
+    word-wrap:break-word;
+    color: #ffffff;
+    background-color: #d82027;
+}
+
+.other{
+    word-wrap:break-word;
+    color: #ffffff;
+    background-color: dimgrey;
+}
+.text-div{
+    padding: 10px;
+}
+
+.text-div li{
+    line-height: 150%;
+}

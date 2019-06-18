@@ -1,155 +1,88 @@
-var REFRESH_CYCLE = 10000;  // ms
+// 添加box的名字
+for(var i = 0;i < projects.length; i++)
+{
+    var v = projects[i];
+    var fontSize = get_font_size("box-"+i);
+    $("#name-"+i).html("<div style='font-size:"+fontSize+"px;'>"+v['name']+"</div>");
+}
 
-function loadAllData() {
+// 根据box 宽度计算字体大小
+function get_font_size(boxid)
+{
+    var width =parseInt($("#"+boxid).parent().css("width"));
+    return Math.min(60,parseInt(width/10)); 
+}
 
-    
+updateData();
+setInterval(updateData,3000);
+function updateData() {
     $.ajaxSettings.async = false;
+    for (var i = 0; i < projects.length; i++) {
+        var v = projects[i];
+        $.getJSON('/status/' + v['name'],
+            function (data) {
+                $("#box-"+i).parent().addClass(data.status);
+                if(data.status == "red") {
+                    $.getJSON('/health/'+v['name'],function(data2){
+                        $('#desc-'+i).html("");
+                        $('#errors-'+i).html("");
 
-    document.getElementById('name-1').innerHTML = "NaviCore";
-    $.getJSON('/status/NaviCore',
-        function (data) {
-            document.getElementById('tile-1').className = data.status;
-            document.getElementById('time-1').innerHTML = getTimeDescription(data.timestamp);
-        }
-    );
-    
-    document.getElementById('name-2').innerHTML = "NaviCore Test";
-    $.getJSON('/status/NaviCoreAutoTest',
-        function (data) {
-            // check auto test building status
-            var data_build;
-            $.getJSON('/status/NaviCoreTestBuild', function(data_build) {
-                if (data.status.indexOf('red') == 0 && data_build.status.indexOf('red') == 0)
-                    data.status = 'deep_red' + data.status.substring(3);
-            });
-            
-            document.getElementById('tile-2').className = data.status;
-            document.getElementById('time-2').innerHTML = getTimeDescription(data.timestamp);
-        }
-    );
-    $.getJSON('/health/NaviCoreAutoTest',
-        function (data) {
-            document.getElementById('desc-2').innerHTML = "";
-            document.getElementById('errors-2').innerHTML = "";
+                        if (data2.failed > 0 && data2.total > 0)
+                            text = data2.failed + " failed / " + data2.skipped + " skipped / " + data2.total + " total";
+                        else if (data2.failed == 0)
+                            text = "No failures (" + data2.skipped + " / " + data2.total + " skipped)";
+                        else
+                            text = "";
+                        $('#desc-'+i).html(text);
 
-            if (data.failed > 0 && data.total > 0)
-                text = data.failed + " failed / " + data.skipped + " skipped / " + data.total + " total";
-            else if (data.failed == 0)
-                text = "No failures (" + data.skipped + " / " + data.total + " skipped)";
-            else
-                text = "";
-            document.getElementById('desc-2').innerHTML = text;
-
-            var s = "";
-            if (data.failedList.length > 0) {
-                s = "<li>" + data.failedList.sort(function (a,b) {return Math.random() - 0.5}).slice(0,8).join("</li><li>") + "</li>";
-                if (data.failed > 8)
-                    s += '<li>......</li>';
+                        var errors = "";
+                        if (data2.failedList.length > 0) {
+                            errors = "<li>" + data2.failedList.sort(function (a, b) { return Math.random() - 0.5 }).slice(0, 8).join("</li><li>") + "</li>";
+                            if (data2.failed > 8) {
+                                errors += '<li>......</li>';
+                            }
+                        }
+                        $('#errors-'+i).html(errors);
+                    });
+                }
+                $("#time-"+i).html("<div>"+getTimeDescription(data.timestamp)+"</div>")
             }
-            document.getElementById('errors-2').innerHTML = s;
-        }
-    );
-    
-    document.getElementById('name-3').innerHTML = "Server";
-    $.getJSON('/status/ncservers',
-        function (data) {
-            document.getElementById('tile-3').className = data.status;
-            document.getElementById('time-3').innerHTML = getTimeDescription(data.timestamp);
-        }
-    );
-    
-    document.getElementById('name-4').innerHTML = "NcBeta Server";
-    $.getJSON('/status/ncbeta.mapbar.com',
-        function (data) {
-            document.getElementById('tile-4').className = data.status;
-            document.getElementById('time-4').innerHTML = getTimeDescription(data.timestamp);
-        }
-    );
-
-    document.getElementById('name-5').innerHTML = "Linux";
-    $.getJSON('/status/NaviCoreLinux',
-        function (data) {
-            document.getElementById('tile-5').className = data.status;
-            document.getElementById('time-5').innerHTML = getTimeDescription(data.timestamp);
-        }
-    );
-
-    document.getElementById('name-6').innerHTML = "Android";
-    $.getJSON('/status/NaviCoreGitAndroid',
-        function (data) {
-            document.getElementById('tile-6').className = data.status;
-            document.getElementById('time-6').innerHTML = getTimeDescription(data.timestamp);
-        }
-    );
-    
-    document.getElementById('name-7').innerHTML = "iOS";
-    $.getJSON('/status/NaviCoreGitMac',
-        function (data) {
-            document.getElementById('tile-7').className = data.status;
-            document.getElementById('time-7').innerHTML = getTimeDescription(data.timestamp);
-        }
-    );
-    
+        );
+    }
     $.ajaxSettings.async = true;
 }
 
-function loadData(name,id)
-{
-    // 时间戳转文本
-    function getTimeDescription(timestamp) 
-    {
-        function getTimeDescription_exact(timestamp) 
-        {
-            date = new Date();
-            date.setTime(timestamp);
-            return date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' +  (Array(2).join(0) + date.getMinutes()).slice(-2);
-        }
 
-        function getTimeDescription_interval(timestamp) 
-        {
-            date = new Date();
-            date.setTime(timestamp);
-            now = new Date();
-            
-            interval_ms = now.getTime() - timestamp;
-            if (interval_ms <= 1000*60)                           // within a minute
-                desc = Math.floor(interval_ms/1000) + " sec";
-            else if (interval_ms <= 1000*60*60)                   // within an hour
-                desc = Math.floor(interval_ms/1000/60) + " min";
-            else if (interval_ms <= 1000*60*60*24)                // within a day
-                desc = Math.floor(interval_ms/1000/60/60) + " hr";
-            else
-                desc = Math.floor(interval_ms/1000/60/60/24) + " day(s)";
+// timestamp to text
+function getTimeDescription(timestamp) {
 
-            desc += ' ago';
-            return desc;
-        }
-
-        if (timestamp != 0)
-            return getTimeDescription_exact(timestamp) + ' (' + getTimeDescription_interval(timestamp) + ')';
-        else
-            return 'NETWORK ERROR';
+    function getTimeDescription_exact(timestamp) {
+        date = new Date();
+        date.setTime(timestamp);
+        return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + (Array(2).join(0) + date.getMinutes()).slice(-2);
     }
 
-    document.getElementById('name-'+id).innerHTML = name;
-    $.getJSON('/status/'+name,
-        function (data) {
-            document.getElementById('tile-'+id).className = data.status;
-            document.getElementById('time-'+id).innerHTML = getTimeDescription(data.timestamp);
-        }
-    );
-    
+    function getTimeDescription_interval(timestamp) {
+        date = new Date();
+        date.setTime(timestamp);
+        now = new Date();
 
+        interval_ms = now.getTime() - timestamp;
+        if (interval_ms <= 1000 * 60)                           // within a minute
+            desc = Math.floor(interval_ms / 1000) + " sec";
+        else if (interval_ms <= 1000 * 60 * 60)                   // within an hour
+            desc = Math.floor(interval_ms / 1000 / 60) + " min";
+        else if (interval_ms <= 1000 * 60 * 60 * 24)                // within a day
+            desc = Math.floor(interval_ms / 1000 / 60 / 60) + " hr";
+        else
+            desc = Math.floor(interval_ms / 1000 / 60 / 60 / 24) + " day(s)";
+
+        desc += ' ago';
+        return desc;
+    }
+
+    if (timestamp != 0)
+        return getTimeDescription_exact(timestamp) + ' (' + getTimeDescription_interval(timestamp) + ')';
+    else
+        return 'NETWORK ERROR';
 }
-
-window.onload = function() {
-    loadAllData();
-}
-
-/// Request the status periodically (sync)
-var timer = setTimeout(
-    function () {
-        loadAllData();
-        setTimeout(arguments.callee, REFRESH_CYCLE);
-    }, REFRESH_CYCLE
-);

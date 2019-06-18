@@ -1,19 +1,22 @@
 {
     "common":
     {
-        "url":"127.0.0.1"
+        "url":"127.0.0.1",
+        "passwd": "123456"
     },
     "projects":
     [
         {
             "id":0,
-            "name":"linux",
-            "importance":1
+            "name":"NaviCore"
         },
         {
             "id":1,
-            "name":"Mac",
-            "importance":1
+            "name":"NaviCoreAutoTest"
+        },
+        {
+            "id": 2,
+            "name":"NaviCoreGitAndroid"
         }
     ]
 }
