@@ -14,7 +14,6 @@ function get_font_size(boxid)
 }
 
 updateData();
-setInterval(updateData,3000);
 function updateData() {
     $.ajaxSettings.async = false;
     for (var i = 0; i < projects.length; i++) {

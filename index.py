@@ -47,7 +47,7 @@ def resource_fonts(filepath):
 @route('/index.htm')
 @route('/index')
 def index():
-    return template(open(os.path.join(rootdir, 'html', 'index.tpl')).read(), projects=Config['projects'])
+    return template(open(os.path.join(rootdir, 'html', 'index.tpl')).read(), projects=Config['projects'],refreshInterval=Config['common']['refreshInterval'])
 
 
 @route('/status/<job_name>')

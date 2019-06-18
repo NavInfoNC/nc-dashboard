@@ -82,12 +82,17 @@
 				var info = getBoxInfo();
                 $.post("/setboxinfo/"+passwd,info,success=function(msg){
                     alert(msg);
+                    window.location.reload();
                 });
 			}
 		}
         $.ajaxSettings.async = true;
+        
 	</script>
     <script src="/js/index.js">
+    </script>
+    <script>
+        setInterval(updateData,{{refreshInterval}}*1000);
     </script>
 </body>
 

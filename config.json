@@ -2,7 +2,9 @@
     "common":
     {
         "url":"127.0.0.1",
-        "passwd": "123456"
+        "passwd": "123456",
+        "refreshInterval":10,
+        "_comment":"The unit of refreshInterval is seconds"
     },
     "projects":
     [
