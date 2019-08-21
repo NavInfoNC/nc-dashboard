@@ -82,15 +82,15 @@ function loadAllData() {
         }
     );
     
-    document.getElementById('name-3').innerHTML = "Server";
-    $.getJSON('/status/ncservers',
+    document.getElementById('name-3').innerHTML = "navicore.mapbar.com";
+    $.getJSON('/status/navicore.mapbar.com',
         function (data) {
             document.getElementById('tile-3').className = data.status;
             document.getElementById('time-3').innerHTML = getTimeDescription(data.timestamp);
         }
     );
     
-    document.getElementById('name-4').innerHTML = "NcBeta Server";
+    document.getElementById('name-4').innerHTML = "ncbeta.mapbar.com";
     $.getJSON('/status/ncbeta.mapbar.com',
         function (data) {
             document.getElementById('tile-4').className = data.status;
