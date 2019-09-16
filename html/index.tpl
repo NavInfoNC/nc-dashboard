@@ -11,7 +11,7 @@
     <div class="box" style="background-color: black">
       <div id="tile-1">
         <div class="content">
-          <p class="project_name" id="name-1"></p>
+          <p class="project_name main_project_name" id="name-1"></p>
           <p class="project_desc" id="desc-1"></p>
           <p class="time" id="time-1"></p>
         </div>

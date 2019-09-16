@@ -171,3 +171,10 @@ ul li:nth-of-type(1n+10) {
   font-size:17px;
   color: rgba(255, 255, 255, 0.8);
 }
+
+.main_project_name {
+  background: url("/images/main_project_name.gif");
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: bold;
+}

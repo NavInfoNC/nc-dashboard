@@ -30,6 +30,11 @@ def resource_css(filepath):
     return static_file(filepath, root=os.path.join(script_dir, 'html', 'css'))
 
 
+@route('/images/<filepath:path>')
+def resource_images(filepath):
+    return static_file(filepath, root=os.path.join(script_dir, 'html', 'images'))
+
+
 @route('/fonts/<filepath:path>')
 def resource_fonts(filepath):
     return static_file(filepath, root=os.path.join(script_dir, 'html', 'fonts'))
