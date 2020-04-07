@@ -10,7 +10,7 @@ import json
 import socket
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-base_url = 'http://mapbar:f86f51987e9f910a84f77d5610d6f8e3@build.navicore.cn/job/'
+base_url = 'http://build.navicore.cn/job/'
 
 # Set timeout
 socket.setdefaulttimeout(15)
